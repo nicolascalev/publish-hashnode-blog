@@ -13,7 +13,7 @@ export async function run(): Promise<void> {
   // Fail the workflow run if an error occurs
   // core.setFailed('message')
 
-  core.debug('TODO: Implement the action.');
+  core.debug('TODO: Implement the action.')
   return
 
   const HASHNODE_HOST = core.getInput('HASHNODE_HOST')

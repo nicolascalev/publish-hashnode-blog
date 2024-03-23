@@ -1,5 +1,6 @@
 name: 'Publish files from /blog/**.md from last commit to Hashnode'
-description: 'Publish .md files from commit that triggered the action to Hashnode blog.'
+description:
+  'Publish .md files from commit that triggered the action to Hashnode blog.'
 author: 'Nicolas Guillen @nicolascalev'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
