@@ -1,26 +1,36 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
+  // core.getInput('')
+  // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
+  // core.debug('')
+  // Set outputs for other workflow steps to use
+  // core.setOutput('name', 'value')
+  // Fail the workflow run if an error occurs
+  // core.setFailed('message')
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+  core.debug('TODO: Implement the action.');
+  return
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  const HASHNODE_HOST = core.getInput('HASHNODE_HOST')
+  const HASHNODE_PAT = core.getInput('HASHNODE_PAT')
+  const GITHUB_SHA = process.env.GITHUB_SHA
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+  // check that all those variables are set, this is only for testing locally because the action will fail earlier if they are not set
+  if (!HASHNODE_HOST || !HASHNODE_PAT || !GITHUB_SHA) {
+    core.setFailed(
+      'Set the env variables in .vscode/launch.json to test locally.'
+    )
+    return
   }
+
+  console.log({
+    HASHNODE_HOST,
+    HASHNODE_PAT,
+    GITHUB_SHA
+  })
 }
