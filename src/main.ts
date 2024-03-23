@@ -38,7 +38,7 @@ export async function run(): Promise<void> {
 
   // check that /blog directory exists
   if (!existsSync('blog')) {
-    console.error('No blog directory found')
+    core.setFailed('No blog directory found')
     return
   }
 

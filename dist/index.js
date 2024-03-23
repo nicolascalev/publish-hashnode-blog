@@ -37746,7 +37746,7 @@ async function run() {
     console.log('WARNING: If you delete a blog, it will not be deleted from Hashnode. You have to delete it manually.');
     // check that /blog directory exists
     if (!(0, fs_1.existsSync)('blog')) {
-        console.error('No blog directory found');
+        core.setFailed('No blog directory found');
         return;
     }
     console.log('\nGetting blog/**.md files from last commit...');

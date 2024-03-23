@@ -6,6 +6,4 @@ tags:
   - Github actions
 ---
 
-## Introduction
-
 Changing content to trigger update post
