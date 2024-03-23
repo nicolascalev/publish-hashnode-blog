@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "description": "Use this to test your action locally with vs code",
+  "configurations": [
+    {
+      "name": "ts-node",
+      "type": "node",
+      "request": "launch",
+      "args": ["./src/index.ts"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceRoot}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "INPUT_HASHNODE_HOST": "[username].hashnode.dev",
+        "INPUT_HASHNODE_PAT": "Your access token",
+        "GITHUB_SHA": "commit sha -> this env variable is provided by GitHub Actions"
+      }
+    }
+  ]
+}

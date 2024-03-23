@@ -99,5 +99,5 @@ __tests__/runner/*
 
 # IDE files
 .idea
-.vscode
+.vscode/launch.json
 *.code-workspace

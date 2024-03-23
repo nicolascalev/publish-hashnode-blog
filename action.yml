@@ -1,23 +1,21 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Publish files from /blog/**.md from last commit to Hashnode'
+description:
+  'Publish .md files from commit that triggered the action to Hashnode blog.'
+author: 'Nicolas Guillen @nicolascalev'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'book-open'
+  color: 'blue'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  HASHNODE_HOST:
+    description: 'Your blog host. Usually [username].hashnode.dev'
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  HASHNODE_PAT:
+    description: 'Your Hashnode Personal Access Token from secrets'
+    required: true
 
 runs:
   using: node20
