@@ -85,9 +85,9 @@ Your content goes here
 ### Required inputs
 
 1. To set GitHub secrets go to
-   `Settings > Secrets and variables > Actions > Repository Secrets > New repository secret`
-1. Your Hashnode host is `[hashnode username].hashnode.dev`
-1. You get your Hashnode access token
+   `Settings > Secrets and variables > Actions > Repository Secrets >  New repository secret`
+2. Your Hashnode host is `[hashnode username].hashnode.dev`
+3. You get your Hashnode access token
    [here](https://hashnode.com/settings/developer)
 
 ## Contributing
