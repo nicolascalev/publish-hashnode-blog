@@ -8,7 +8,7 @@
 
 This action was started from
 [this version](https://github.com/actions/typescript-action/tree/1da1fe9abb959743f36210ae5423e1dccc805e85)
-of the template to generate a TypeScript Github action.
+of the template to generate a TypeScript GitHub action.
 
 ## Usage
 
@@ -73,21 +73,21 @@ Your content goes here
 
 1. You need to have the directory `./blog` at the root of your project or the
    action will fail.
-2. The action uses **only** the `blog/**.md` files from the commit that
+1. The action uses **only** the `blog/**.md` files from the commit that
    triggered the action (the last commit).
-3. Deleting a `.md` file won't delete your blog in Hashnode.
-4. We find the blogs by title. If you change the title of a blog after it's
+1. Deleting a `.md` file won't delete your blog in Hashnode.
+1. We find the blogs by title. If you change the title of a blog after it's
    creation. A new blog will be created, and you have to delete the old one
    manually.
-5. Sometimes the updates can take longer to show in your Hashnode blog. Try also
+1. Sometimes the updates can take longer to show in your Hashnode blog. Try also
    opening a new tab.
 
 ### Required inputs
 
 1. To set GitHub secrets go to
    `Settings > Secrets and variables > Actions > Repository Secrets > New repository secret`
-2. Your Hashnode host is `[hashnode username].hashnode.dev`
-3. You get your Hashnode access token
+1. Your Hashnode host is `[hashnode username].hashnode.dev`
+1. You get your Hashnode access token
    [here](https://hashnode.com/settings/developer)
 
 ## Contributing
@@ -97,9 +97,9 @@ the action locally.
 
 1. Copy `.vscode/launch.example.json` to `.vscode/launch.json` and set the right
    environment variables.
-2. `GITHUB_SHA` should be a commit that contains changes to a blog.
-3. Now you can debug your action without pushing the code to GitHub or using
+1. `GITHUB_SHA` should be a commit that contains changes to a blog.
+1. Now you can debug your action without pushing the code to GitHub or using
    act.
-4. Before pushing your code, always run `npm run all` to run tests locally, and
+1. Before pushing your code, always run `npm run all` to run tests locally, and
    check formatting errors.
-5. Create a pull request.
+1. Create a pull request.
