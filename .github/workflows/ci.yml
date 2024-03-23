@@ -40,7 +40,9 @@ jobs:
         id: npm-ci-test
         run: npm run ci-test
 
+      # This step is necessary to test the action locally with act
       - name: Install Git
+        id: install-git
         run: npm i -g git
 
   test-action:
