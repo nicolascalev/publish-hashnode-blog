@@ -29,24 +29,25 @@ jobs:
   update-posts:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Perform a full git clone, you must do this
-
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # This step is necessary to test the action locally with act
+      # This step is only necessary to test the action locally with act
       - name: Install Git
         id: install-git
         run: npm i -g git
 
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # you must do this to get the last commit
+      - run: git checkout HEAD^
+
       - name: Run script to post blogs to Hashnode
         id: post-blogs
-        uses: nicolascalev/publish-hashnode-blog@v1.1
+        uses: nicolascalev/publish-hashnode-blog@v1.2
         with:
           HASHNODE_HOST: ${{ secrets.HASHNODE_HOST }}
           HASHNODE_PAT: ${{ secrets.HASHNODE_PAT }}
@@ -74,8 +75,9 @@ Your content goes here
    action will fail.
 1. The action uses **only** the `blog/**.md` files from the commit that
    triggered the action (the last commit).
-1. When using `actions/checkout@v4` you must add `fetch-depth: 0` to get the
-   `.md` files from the last commit only.
+1. When using `actions/checkout@v4` you must add the configuration I provided to
+   get the files from the last commit. Otherwise GitHub creates a temporary
+   branch with all the files.
 1. Deleting a `.md` file won't delete your blog in Hashnode.
 1. We find the blogs by title. If you change the title of a blog after it's
    creation. A new blog will be created, and you have to delete the old one

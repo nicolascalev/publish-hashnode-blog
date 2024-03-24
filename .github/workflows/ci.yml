@@ -2,7 +2,11 @@ name: Continuous Integration
 
 on:
   pull_request:
+    branches:
+      - main
   push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -54,7 +58,8 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Perform a full git clone
+          fetch-depth: 2
+      - run: git checkout HEAD^
 
       - name: Test Local Action
         id: test-action

@@ -37788,10 +37788,11 @@ const core_1 = __nccwpck_require__(2186);
 async function getMarkdownBlogsFromLastCommit() {
     // process.env.GITHUB_SHA is the commit hash of the last commit which triggered the action and is provided by github actions
     const res = await (0, simple_git_1.simpleGit)().show([
+        '--pretty=format:',
         '--name-only',
         process.env.GITHUB_SHA
     ]);
-    (0, core_1.info)(`\ngit show --name-only ${process.env.GITHUB_SHA} response: ${res}`);
+    (0, core_1.info)(`\ngit show --pretty=format: --name-only ${process.env.GITHUB_SHA}\n${res}`);
     const paths = res.split('\n');
     const regex = new RegExp('blog/.*\\.md');
     const markdownBlogsPaths = paths.filter(path => regex.test(path));

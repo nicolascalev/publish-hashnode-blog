@@ -9,11 +9,12 @@ export async function getMarkdownBlogsFromLastCommit(): Promise<
 > {
   // process.env.GITHUB_SHA is the commit hash of the last commit which triggered the action and is provided by github actions
   const res = await simpleGit().show([
+    '--pretty=format:',
     '--name-only',
     process.env.GITHUB_SHA as string
   ])
   info(
-    `\ngit show --name-only ${process.env.GITHUB_SHA as string} response: ${res}`
+    `\ngit show --pretty=format: --name-only ${process.env.GITHUB_SHA as string}\n${res}`
   )
   const paths = res.split('\n')
   const regex = new RegExp('blog/.*\\.md')
