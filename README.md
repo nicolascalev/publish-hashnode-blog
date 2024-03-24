@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Perform a full git clone, you must do this
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
@@ -72,6 +74,8 @@ Your content goes here
    action will fail.
 1. The action uses **only** the `blog/**.md` files from the commit that
    triggered the action (the last commit).
+1. When using `actions/checkout@v4` you must add `fetch-depth: 0` to get the
+   `.md` files from the last commit only.
 1. Deleting a `.md` file won't delete your blog in Hashnode.
 1. We find the blogs by title. If you change the title of a blog after it's
    creation. A new blog will be created, and you have to delete the old one
