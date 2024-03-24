@@ -53,6 +53,8 @@ jobs:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Perform a full git clone
 
       - name: Test Local Action
         id: test-action
