@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { HashnodePost, MarkdownBlog } from './types'
-import { setFailed, getInput, warning } from '@actions/core'
+import { setFailed, getInput, warning, info } from '@actions/core'
 import { slugify } from './utils'
 
 const HASHNODE_PAT = getInput('HASHNODE_PAT')
@@ -104,10 +104,10 @@ export async function upsertBlogs(
       postItem => postItem.title === blog.attributes.title
     )
     if (post) {
-      console.log(`\nUpdating post in Hashnode: ${blog.path}...`)
+      info(`\nUpdating post in Hashnode: ${blog.path}...`)
       await updatePost(post.id, blog)
     } else {
-      console.log(`\nCreating post in Hashnode: ${blog.path}...`)
+      info(`\nCreating post in Hashnode: ${blog.path}...`)
       await createPost(blog, publicationId)
     }
   }
@@ -169,10 +169,10 @@ export async function updatePost(
     }
 
     if (axiosResponse.data) {
-      console.log(
+      info(
         `Updated blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`
       )
-      console.log(axiosResponse.data.data.updatePost.post.url)
+      info(axiosResponse.data.data.updatePost.post.url)
     }
   } catch (err) {
     warning(`\nError updating post in Hashnode: ${blog.attributes.title}`)
@@ -233,19 +233,19 @@ export async function createPost(
     const axiosResponse = response
 
     if (axiosResponse.data && axiosResponse.data.errors) {
-      console.log(`\nError creating post in Hashnode: ${blog.attributes.title}`)
+      info(`\nError creating post in Hashnode: ${blog.attributes.title}`)
       console.error(JSON.stringify(axiosResponse.data.errors, null, 2))
       return
     }
 
     if (axiosResponse.data) {
-      console.log(
+      info(
         `Published blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`
       )
-      console.log(axiosResponse.data.data.publishPost.post.url)
+      info(axiosResponse.data.data.publishPost.post.url)
     }
   } catch (err) {
-    console.log(`\nError creating post in Hashnode: ${blog.attributes.title}`)
+    info(`\nError creating post in Hashnode: ${blog.attributes.title}`)
     console.error(JSON.stringify((err as any).response.data, null, 2))
   }
 }

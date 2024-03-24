@@ -2,7 +2,7 @@ import { readFileSync, existsSync } from 'fs'
 import { simpleGit } from 'simple-git'
 import fm from 'front-matter'
 import { BlogFrontMatterAttributes, MarkdownBlog } from './types'
-import { warning } from '@actions/core'
+import { warning, info } from '@actions/core'
 
 export async function getMarkdownBlogsFromLastCommit(): Promise<
   MarkdownBlog[]
@@ -12,23 +12,24 @@ export async function getMarkdownBlogsFromLastCommit(): Promise<
     '--name-only',
     process.env.GITHUB_SHA as string
   ])
+  info(
+    `\ngit show --name-only ${process.env.GITHUB_SHA as string} response: ${res}`
+  )
   const paths = res.split('\n')
   const regex = new RegExp('blog/.*\\.md')
   const markdownBlogsPaths = paths.filter(path => regex.test(path))
-  console.log(
-    `Markdown blogs found in last commit: ${markdownBlogsPaths.length}`
-  )
+  info(`Markdown blogs found in last commit: ${markdownBlogsPaths.length}`)
 
   const markdownBlogs = []
   for (const path of markdownBlogsPaths) {
     if (!existsSync(path)) {
-      console.log(
+      info(
         `\nFILE FOR BLOG DELETED. Now you have to delete it from Hashnode manually. ${path}`
       )
       const beforeDeleted = await simpleGit().show([`HEAD^:${path}`])
       const markdownBeforeDeleted = fm<BlogFrontMatterAttributes>(beforeDeleted)
       if (markdownBeforeDeleted.attributes.title) {
-        console.log(
+        info(
           `Title of deleted blog: ${markdownBeforeDeleted.attributes.title}\n`
         )
       }

@@ -42,12 +42,9 @@ jobs:
         id: install-git
         run: npm i -g git
 
-      - name: Install dependencies
-        run: npm i
-
       - name: Run script to post blogs to Hashnode
         id: post-blogs
-        uses: nicolascalev/publish-hashnode-blog@v1.0
+        uses: nicolascalev/publish-hashnode-blog@v1.1
         with:
           HASHNODE_HOST: ${{ secrets.HASHNODE_HOST }}
           HASHNODE_PAT: ${{ secrets.HASHNODE_PAT }}
@@ -102,4 +99,5 @@ the action locally.
    act.
 1. Before pushing your code, always run `npm run all` to run tests locally, and
    check formatting errors.
+1. Run `npm run format:write` to fix format errors automatically.
 1. Create a pull request.

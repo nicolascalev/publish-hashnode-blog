@@ -28,11 +28,11 @@ export async function run(): Promise<void> {
     return
   }
 
-  console.log('\nAttempting to post to Hashnode...')
-  console.log(
+  core.info('\nAttempting to post to Hashnode...')
+  core.info(
     'WARNING: We find blogs based on the title of the blog. The title hast to be unique. Also if you change the title after the blog has been posted, we will create a new post and you have to delete the old one manually.'
   )
-  console.log(
+  core.info(
     'WARNING: If you delete a blog, it will not be deleted from Hashnode. You have to delete it manually.'
   )
 
@@ -42,18 +42,18 @@ export async function run(): Promise<void> {
     return
   }
 
-  console.log('\nGetting blog/**.md files from last commit...')
+  core.info('\nGetting blog/**.md files from last commit...')
   const markdownBlogs = await getMarkdownBlogsFromLastCommit()
 
   if (markdownBlogs.length === 0) {
-    console.log('No markdown blogs found in last commit')
+    core.info('No markdown blogs found in last commit')
     return
   }
 
-  console.log('\nGetting all posts from hashnode...')
+  core.info('\nGetting all posts from hashnode...')
   const postsFromHashNode = await getPostsFromHashnode()
 
-  console.log('\nGetting publication id from hashnode...')
+  core.info('\nGetting publication id from hashnode...')
   const publicationId = await getPublicationId()
   if (!publicationId) {
     core.setFailed('No publication id found in hashnode')

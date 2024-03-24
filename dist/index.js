@@ -37552,11 +37552,11 @@ async function upsertBlogs(markdownBlogs, postsFromHashNode, publicationId) {
     for (const blog of markdownBlogs) {
         const post = postsFromHashNode.find(postItem => postItem.title === blog.attributes.title);
         if (post) {
-            console.log(`\nUpdating post in Hashnode: ${blog.path}...`);
+            (0, core_1.info)(`\nUpdating post in Hashnode: ${blog.path}...`);
             await updatePost(post.id, blog);
         }
         else {
-            console.log(`\nCreating post in Hashnode: ${blog.path}...`);
+            (0, core_1.info)(`\nCreating post in Hashnode: ${blog.path}...`);
             await createPost(blog, publicationId);
         }
     }
@@ -37611,8 +37611,8 @@ async function updatePost(id, blog) {
             return;
         }
         if (axiosResponse.data) {
-            console.log(`Updated blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`);
-            console.log(axiosResponse.data.data.updatePost.post.url);
+            (0, core_1.info)(`Updated blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`);
+            (0, core_1.info)(axiosResponse.data.data.updatePost.post.url);
         }
     }
     catch (err) {
@@ -37668,17 +37668,17 @@ async function createPost(blog, publicationId) {
         });
         const axiosResponse = response;
         if (axiosResponse.data && axiosResponse.data.errors) {
-            console.log(`\nError creating post in Hashnode: ${blog.attributes.title}`);
+            (0, core_1.info)(`\nError creating post in Hashnode: ${blog.attributes.title}`);
             console.error(JSON.stringify(axiosResponse.data.errors, null, 2));
             return;
         }
         if (axiosResponse.data) {
-            console.log(`Published blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`);
-            console.log(axiosResponse.data.data.publishPost.post.url);
+            (0, core_1.info)(`Published blog for ${blog.path} sometimes it takes a few minutes to show up on hashnode.`);
+            (0, core_1.info)(axiosResponse.data.data.publishPost.post.url);
         }
     }
     catch (err) {
-        console.log(`\nError creating post in Hashnode: ${blog.attributes.title}`);
+        (0, core_1.info)(`\nError creating post in Hashnode: ${blog.attributes.title}`);
         console.error(JSON.stringify(err.response.data, null, 2));
     }
 }
@@ -37741,23 +37741,23 @@ async function run() {
         core.setFailed('Set the env variables in .vscode/launch.json to test locally.');
         return;
     }
-    console.log('\nAttempting to post to Hashnode...');
-    console.log('WARNING: We find blogs based on the title of the blog. The title hast to be unique. Also if you change the title after the blog has been posted, we will create a new post and you have to delete the old one manually.');
-    console.log('WARNING: If you delete a blog, it will not be deleted from Hashnode. You have to delete it manually.');
+    core.info('\nAttempting to post to Hashnode...');
+    core.info('WARNING: We find blogs based on the title of the blog. The title hast to be unique. Also if you change the title after the blog has been posted, we will create a new post and you have to delete the old one manually.');
+    core.info('WARNING: If you delete a blog, it will not be deleted from Hashnode. You have to delete it manually.');
     // check that /blog directory exists
     if (!(0, fs_1.existsSync)('blog')) {
         core.setFailed('No blog directory found');
         return;
     }
-    console.log('\nGetting blog/**.md files from last commit...');
+    core.info('\nGetting blog/**.md files from last commit...');
     const markdownBlogs = await (0, repo_1.getMarkdownBlogsFromLastCommit)();
     if (markdownBlogs.length === 0) {
-        console.log('No markdown blogs found in last commit');
+        core.info('No markdown blogs found in last commit');
         return;
     }
-    console.log('\nGetting all posts from hashnode...');
+    core.info('\nGetting all posts from hashnode...');
     const postsFromHashNode = await (0, hashnode_1.getPostsFromHashnode)();
-    console.log('\nGetting publication id from hashnode...');
+    core.info('\nGetting publication id from hashnode...');
     const publicationId = await (0, hashnode_1.getPublicationId)();
     if (!publicationId) {
         core.setFailed('No publication id found in hashnode');
@@ -37791,18 +37791,19 @@ async function getMarkdownBlogsFromLastCommit() {
         '--name-only',
         process.env.GITHUB_SHA
     ]);
+    (0, core_1.info)(`\ngit show --name-only ${process.env.GITHUB_SHA} response: ${res}`);
     const paths = res.split('\n');
     const regex = new RegExp('blog/.*\\.md');
     const markdownBlogsPaths = paths.filter(path => regex.test(path));
-    console.log(`Markdown blogs found in last commit: ${markdownBlogsPaths.length}`);
+    (0, core_1.info)(`Markdown blogs found in last commit: ${markdownBlogsPaths.length}`);
     const markdownBlogs = [];
     for (const path of markdownBlogsPaths) {
         if (!(0, fs_1.existsSync)(path)) {
-            console.log(`\nFILE FOR BLOG DELETED. Now you have to delete it from Hashnode manually. ${path}`);
+            (0, core_1.info)(`\nFILE FOR BLOG DELETED. Now you have to delete it from Hashnode manually. ${path}`);
             const beforeDeleted = await (0, simple_git_1.simpleGit)().show([`HEAD^:${path}`]);
             const markdownBeforeDeleted = (0, front_matter_1.default)(beforeDeleted);
             if (markdownBeforeDeleted.attributes.title) {
-                console.log(`Title of deleted blog: ${markdownBeforeDeleted.attributes.title}\n`);
+                (0, core_1.info)(`Title of deleted blog: ${markdownBeforeDeleted.attributes.title}\n`);
             }
             continue;
         }
